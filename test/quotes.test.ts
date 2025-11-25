@@ -2,7 +2,6 @@ import fs from "fs";
 import path from "path";
 import { beforeAll, afterAll, describe, it, expect } from "vitest";
 
-// Ensure test DB path is set before importing the app/db
 const DATA_DIR = path.join(__dirname, "..", "data");
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 const TEST_DB = path.join(DATA_DIR, "test-quotes.db");
