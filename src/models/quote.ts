@@ -22,7 +22,6 @@ export async function insertQuote(q: Quote) {
 
 export async function getQuotesByUser(userId: string): Promise<Quote[]> {
   await initDb();
-  // SQL.js lacks datetime() so createdAt stored as ISO and sorted lexicographically
   const rows = query(`SELECT quoteId, userId, principal, leverage, durationHours, risk, payoutCap, premium, createdAt FROM quotes WHERE userId = ? ORDER BY createdAt DESC`, [userId]);
   return rows as Quote[];
 }

@@ -1,18 +1,20 @@
 import fs from "fs";
 import path from "path";
-import initSqlJs, { Database as SqlJsDatabase, SqlJsStatic } from "sql.js";
+// Use require + any to avoid missing declaration issues for sql.js in ts-node
+const initSqlJs: any = require("sql.js");
+
 
 const DATA_DIR = path.resolve(process.env.DB_DIR || path.join(__dirname, "..", "data"));
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
 const DB_PATH = process.env.DB_PATH || path.join(DATA_DIR, "quotes.db");
 
-let SQL: SqlJsStatic | null = null;
-let db: SqlJsDatabase | null = null;
+let SQL: any | null = null;
+let db: any | null = null;
 
 export async function initDb() {
   if (db) return;
-  SQL = await initSqlJs({ locateFile: (file) => require.resolve(`sql.js/dist/${file}`) });
+  SQL = await initSqlJs({ locateFile: (file: string) => require.resolve(`sql.js/dist/${file}`) });
 
   if (fs.existsSync(DB_PATH)) {
     const data = fs.readFileSync(DB_PATH);
